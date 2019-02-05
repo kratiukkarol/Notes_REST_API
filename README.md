@@ -12,4 +12,6 @@ You will need to create a database named notes_app in MySQL, and change the spri
 
 To get started, we need to have MySQL installed
 
-CREATE DATABASE notes_app
+Open MySQL terminal / workbench terminal and execute following MySQL script :
+CREATE DATABASE notes_app;
+

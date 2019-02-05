@@ -1,5 +1,6 @@
 package com.kratiukkarol.notesapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -25,8 +26,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "note_version")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"created", "modified"}, allowGetters=true)
-public class Version {
+public class Version implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	public Version() {
 		
 	}

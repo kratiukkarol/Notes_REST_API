@@ -1,6 +1,5 @@
 package com.kratiukkarol.notesapp.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +8,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,26 +22,29 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "notes")
+@Table(name = "note_version")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"created", "modified"}, allowGetters=true)
-public class Note implements Serializable{
+public class Version {
 	
-	private static final long serialVersionUID = 1L;
-	
-	public Note() {
+	public Version() {
 		
 	}
 	
-	public Note(@NotBlank String title, @NotBlank String content) {
+	public Version(Note note) {
+		super();
+		this.note = note;
+	}
+
+	public Version(String title, String content, Note note) {
 		super();
 		this.title = title;
 		this.content = content;
+		this.note = note;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "note_id")
 	private Long id;
 	
 	@NotBlank
@@ -59,8 +63,9 @@ public class Note implements Serializable{
 	@LastModifiedDate
 	private Date modified;
 	
-	@Column
-	private boolean deleted;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "note_id")
+	private Note note;
 
 	public Long getId() {
 		return id;
@@ -102,12 +107,12 @@ public class Note implements Serializable{
 		this.modified = modified;
 	}
 
-	public boolean isDeleted() {
-		return deleted;
+	public Note getNote() {
+		return note;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setNote(Note note) {
+		this.note = note;
 	}
 
 }
